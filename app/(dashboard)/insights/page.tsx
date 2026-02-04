@@ -41,7 +41,7 @@ interface Challenge {
   date: string
 }
 
-// Beautiful Money Tree Component
+// Tree SVG Component with Dynamic Animations
 function FinancialTree({ 
   rootsHealth, 
   trunkHealth, 
@@ -55,499 +55,435 @@ function FinancialTree({
   fruitsCount: number
   pestsCount: number
 }) {
-  // Dynamic colors based on health
-  const trunkColors = {
-    primary: trunkHealth > 70 ? "#4ade80" : trunkHealth > 40 ? "#facc15" : "#fb923c",
-    secondary: trunkHealth > 70 ? "#166534" : trunkHealth > 40 ? "#a16207" : "#c2410c",
-  }
-  const leafColors = {
-    primary: growthLevel > 70 ? "#22c55e" : growthLevel > 40 ? "#84cc16" : "#9ca3af",
-    secondary: growthLevel > 70 ? "#15803d" : growthLevel > 40 ? "#65a30d" : "#6b7280",
-    highlight: growthLevel > 70 ? "#86efac" : growthLevel > 40 ? "#bef264" : "#d1d5db",
-  }
-  const rootColors = {
-    primary: rootsHealth > 70 ? "#a78bfa" : rootsHealth > 40 ? "#c4b5fd" : "#9ca3af",
-    secondary: rootsHealth > 70 ? "#7c3aed" : rootsHealth > 40 ? "#a78bfa" : "#6b7280",
-  }
+  const treeColor = trunkHealth > 70 ? "#22c55e" : trunkHealth > 40 ? "#eab308" : "#f97316"
+  const leafColor = growthLevel > 70 ? "#22c55e" : growthLevel > 40 ? "#84cc16" : "#a3a3a3"
+  const rootColor = rootsHealth > 70 ? "#8b5cf6" : rootsHealth > 40 ? "#c084fc" : "#6b7280"
   
   return (
-    <div className="relative w-full h-[500px] flex items-center justify-center">
-      <svg viewBox="0 0 400 450" className="w-full h-full max-w-[500px]">
+    <div className="relative w-full h-[450px] flex items-center justify-center">
+      <svg viewBox="0 0 400 400" className="w-full h-full max-w-[450px]">
         <defs>
-          {/* Sky gradient */}
-          <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#1e1b4b" stopOpacity="0.3" />
-            <stop offset="50%" stopColor="#312e81" stopOpacity="0.15" />
-            <stop offset="100%" stopColor="transparent" />
-          </linearGradient>
-          
-          {/* Ground gradient */}
-          <radialGradient id="groundGradient" cx="50%" cy="50%" r="60%">
-            <stop offset="0%" stopColor={rootColors.primary} stopOpacity="0.25" />
-            <stop offset="70%" stopColor={rootColors.secondary} stopOpacity="0.1" />
-            <stop offset="100%" stopColor="transparent" />
+          {/* Gradients */}
+          <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#fbbf24" stopOpacity="0" />
           </radialGradient>
-          
-          {/* Trunk gradient */}
           <linearGradient id="trunkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor={trunkColors.secondary} />
-            <stop offset="30%" stopColor={trunkColors.primary} />
-            <stop offset="70%" stopColor={trunkColors.primary} />
-            <stop offset="100%" stopColor={trunkColors.secondary} />
+            <stop offset="0%" stopColor={treeColor} stopOpacity="0.8" />
+            <stop offset="50%" stopColor={treeColor} stopOpacity="1" />
+            <stop offset="100%" stopColor={treeColor} stopOpacity="0.8" />
           </linearGradient>
-          
-          {/* Leaf gradients */}
-          <radialGradient id="leafGradient1" cx="30%" cy="30%" r="70%">
-            <stop offset="0%" stopColor={leafColors.highlight} />
-            <stop offset="50%" stopColor={leafColors.primary} />
-            <stop offset="100%" stopColor={leafColors.secondary} />
-          </radialGradient>
-          <radialGradient id="leafGradient2" cx="40%" cy="40%" r="60%">
-            <stop offset="0%" stopColor={leafColors.primary} />
-            <stop offset="100%" stopColor={leafColors.secondary} />
-          </radialGradient>
-          
-          {/* Root gradient */}
-          <linearGradient id="rootGradient" x1="50%" y1="0%" x2="50%" y2="100%">
-            <stop offset="0%" stopColor={rootColors.primary} />
-            <stop offset="100%" stopColor={rootColors.secondary} stopOpacity="0.5" />
+          <linearGradient id="leafGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor={leafColor} stopOpacity="1" />
+            <stop offset="100%" stopColor={leafColor} stopOpacity="0.7" />
           </linearGradient>
-          
-          {/* Glow filters */}
-          <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="4" result="blur"/>
+          <filter id="glow">
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
             <feMerge>
-              <feMergeNode in="blur"/>
+              <feMergeNode in="coloredBlur"/>
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
-          <filter id="strongGlow" x="-100%" y="-100%" width="300%" height="300%">
-            <feGaussianBlur stdDeviation="8" result="blur"/>
+          <filter id="softGlow">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
             <feMerge>
-              <feMergeNode in="blur"/>
+              <feMergeNode in="coloredBlur"/>
               <feMergeNode in="SourceGraphic"/>
             </feMerge>
           </filter>
-          <filter id="innerShadow">
-            <feOffset dx="0" dy="2"/>
-            <feGaussianBlur stdDeviation="2" result="offset-blur"/>
-            <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse"/>
-            <feFlood floodColor="#000" floodOpacity="0.2" result="color"/>
-            <feComposite operator="in" in="color" in2="inverse" result="shadow"/>
-            <feComposite operator="over" in="shadow" in2="SourceGraphic"/>
-          </filter>
-          
-          {/* Star/sparkle shape */}
-          <path id="star" d="M0,-6 L1.5,-1.5 L6,0 L1.5,1.5 L0,6 L-1.5,1.5 L-6,0 L-1.5,-1.5 Z" />
         </defs>
         
-        {/* Background glow */}
-        <rect x="0" y="0" width="400" height="450" fill="url(#skyGradient)" />
+        {/* Animated Sun with rays */}
+        <g className="animate-sun">
+          <circle cx="350" cy="50" r="80" fill="url(#sunGlow)">
+            <animate attributeName="r" values="70;85;70" dur="4s" repeatCount="indefinite" />
+          </circle>
+          <circle cx="350" cy="50" r="22" fill="#fbbf24" filter="url(#glow)">
+            <animate attributeName="r" values="20;24;20" dur="3s" repeatCount="indefinite" />
+          </circle>
+          {/* Sun rays */}
+          {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
+            <line
+              key={angle}
+              x1={350 + Math.cos(angle * Math.PI / 180) * 30}
+              y1={50 + Math.sin(angle * Math.PI / 180) * 30}
+              x2={350 + Math.cos(angle * Math.PI / 180) * 45}
+              y2={50 + Math.sin(angle * Math.PI / 180) * 45}
+              stroke="#fbbf24"
+              strokeWidth="2"
+              strokeLinecap="round"
+              opacity="0.6"
+            >
+              <animate attributeName="opacity" values="0.3;0.8;0.3" dur={`${2 + i * 0.2}s`} repeatCount="indefinite" />
+            </line>
+          ))}
+        </g>
         
-        {/* Ambient light orbs */}
-        <circle cx="80" cy="60" r="40" fill="#a78bfa" opacity="0.08">
-          <animate attributeName="opacity" values="0.05;0.12;0.05" dur="6s" repeatCount="indefinite" />
-        </circle>
-        <circle cx="320" cy="100" r="50" fill="#f472b6" opacity="0.06">
-          <animate attributeName="opacity" values="0.04;0.1;0.04" dur="8s" repeatCount="indefinite" />
-        </circle>
+        {/* Ground with shimmer */}
+        <ellipse cx="200" cy="345" rx="160" ry="25" fill="rgba(139, 92, 246, 0.15)">
+          <animate attributeName="rx" values="155;165;155" dur="5s" repeatCount="indefinite" />
+        </ellipse>
+        <ellipse cx="200" cy="340" rx="140" ry="18" fill="rgba(139, 92, 246, 0.25)" />
         
-        {/* Ground/soil area */}
-        <ellipse cx="200" cy="380" rx="180" ry="40" fill="url(#groundGradient)" />
-        <ellipse cx="200" cy="375" rx="150" ry="25" fill={rootColors.primary} opacity="0.15" />
-        
-        {/* Roots with organic curves */}
+        {/* Roots - Money Habits (animated pulse) */}
         <g>
           {[
-            { d: "M200 360 C180 380, 140 395, 80 410", w: 8 },
-            { d: "M200 360 C185 385, 155 410, 110 430", w: 5 },
-            { d: "M200 360 C220 380, 260 395, 320 410", w: 8 },
-            { d: "M200 360 C215 385, 245 410, 290 430", w: 5 },
-            { d: "M200 360 C200 390, 195 420, 200 445", w: 6 },
-            { d: "M200 360 C175 375, 145 385, 100 390", w: 4 },
-            { d: "M200 360 C225 375, 255 385, 300 390", w: 4 },
+            { d: "M200 340 Q150 370 90 385", w: 9, o: 0.9 },
+            { d: "M200 340 Q175 385 130 400", w: 6, o: 0.7 },
+            { d: "M200 340 Q250 370 310 385", w: 9, o: 0.9 },
+            { d: "M200 340 Q225 385 270 400", w: 6, o: 0.7 },
+            { d: "M200 340 Q200 385 200 400", w: 5, o: 0.6 },
+            { d: "M200 340 Q160 355 120 360", w: 4, o: 0.5 },
+            { d: "M200 340 Q240 355 280 360", w: 4, o: 0.5 },
           ].map((root, i) => (
             <path 
               key={i}
               d={root.d}
-              stroke="url(#rootGradient)"
+              stroke={rootColor} 
               strokeWidth={root.w}
               fill="none" 
               strokeLinecap="round"
-              opacity={0.7 + (i % 3) * 0.1}
+              opacity={root.o}
+              filter="url(#softGlow)"
             >
               <animate 
+                attributeName="stroke-width" 
+                values={`${root.w};${root.w + 2};${root.w}`} 
+                dur={`${2 + i * 0.3}s`} 
+                repeatCount="indefinite" 
+              />
+              <animate 
                 attributeName="opacity" 
-                values={`${0.6 + i * 0.05};${0.9};${0.6 + i * 0.05}`} 
-                dur={`${3 + i * 0.5}s`} 
+                values={`${root.o};${Math.min(1, root.o + 0.2)};${root.o}`} 
+                dur={`${2.5 + i * 0.2}s`} 
                 repeatCount="indefinite" 
               />
             </path>
           ))}
-          
-          {/* Energy particles flowing through roots */}
-          {rootsHealth > 40 && [...Array(4)].map((_, i) => (
-            <circle key={i} r="3" fill={rootColors.primary} filter="url(#softGlow)">
+          {/* Root glow particles */}
+          {rootsHealth > 50 && [1,2,3].map((_, i) => (
+            <circle key={i} r="3" fill={rootColor} opacity="0.6">
               <animateMotion 
-                dur={`${4 + i}s`} 
+                dur={`${3 + i}s`} 
                 repeatCount="indefinite"
-                path={`M${80 + i * 60} 410 Q${140 + i * 30} 385 200 360`}
+                path={`M200 340 Q${150 + i * 30} ${370 + i * 5} ${100 + i * 40} ${380 + i * 5}`}
               />
-              <animate attributeName="opacity" values="0;0.9;0.9;0" dur={`${4 + i}s`} repeatCount="indefinite" />
-              <animate attributeName="r" values="2;4;2" dur={`${4 + i}s`} repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0;0.8;0" dur={`${3 + i}s`} repeatCount="indefinite" />
             </circle>
           ))}
         </g>
         
-        {/* Main trunk with organic shape */}
+        {/* Trunk - Daily Spending (breathing animation) */}
         <g>
-          {/* Trunk shadow */}
           <path 
-            d="M185 360 C180 320, 178 280, 182 240 C186 200, 192 160, 200 130 C208 160, 214 200, 218 240 C222 280, 220 320, 215 360 Z"
-            fill="rgba(0,0,0,0.2)"
-            transform="translate(3, 3)"
-          />
-          {/* Main trunk */}
-          <path 
-            d="M185 360 C180 320, 178 280, 182 240 C186 200, 192 160, 200 130 C208 160, 214 200, 218 240 C222 280, 220 320, 215 360 Z"
+            d="M182 340 Q175 280 180 220 Q188 150 200 130 Q212 150 220 220 Q225 280 218 340 Z"
             fill="url(#trunkGradient)"
-            filter="url(#innerShadow)"
+            filter="url(#softGlow)"
           >
             <animate 
               attributeName="d" 
-              values="M185 360 C180 320, 178 280, 182 240 C186 200, 192 160, 200 130 C208 160, 214 200, 218 240 C222 280, 220 320, 215 360 Z;M183 360 C178 320, 176 280, 180 240 C184 200, 190 160, 200 125 C210 160, 216 200, 220 240 C224 280, 222 320, 217 360 Z;M185 360 C180 320, 178 280, 182 240 C186 200, 192 160, 200 130 C208 160, 214 200, 218 240 C222 280, 220 320, 215 360 Z"
-              dur="8s"
+              values="M182 340 Q175 280 180 220 Q188 150 200 130 Q212 150 220 220 Q225 280 218 340 Z;M180 340 Q173 280 178 220 Q186 150 200 125 Q214 150 222 220 Q227 280 220 340 Z;M182 340 Q175 280 180 220 Q188 150 200 130 Q212 150 220 220 Q225 280 218 340 Z"
+              dur="4s"
               repeatCount="indefinite"
             />
           </path>
-          
-          {/* Trunk highlight */}
+          {/* Trunk texture lines */}
+          {[260, 290, 320].map((y, i) => (
+            <path 
+              key={i}
+              d={`M${188 + i} ${y} Q200 ${y - 5} ${212 - i} ${y}`}
+              stroke="rgba(0,0,0,0.2)"
+              strokeWidth="1.5"
+              fill="none"
+            />
+          ))}
+          {/* Branches (swaying) */}
           <path 
-            d="M192 350 C190 310, 190 270, 193 230 C196 190, 198 160, 200 140"
-            stroke={trunkColors.primary}
-            strokeWidth="3"
-            fill="none"
-            opacity="0.4"
-            strokeLinecap="round"
-          />
-          
-          {/* Left main branch */}
-          <path 
-            d="M188 280 C165 255, 140 235, 110 220"
-            stroke="url(#trunkGradient)"
+            d="M188 295 Q155 255 130 235"
+            stroke={treeColor}
             strokeWidth="14"
             fill="none"
             strokeLinecap="round"
           >
             <animate 
               attributeName="d" 
-              values="M188 280 C165 255, 140 235, 110 220;M188 280 C168 258, 145 240, 115 228;M188 280 C165 255, 140 235, 110 220"
-              dur="6s"
+              values="M188 295 Q155 255 130 235;M188 295 Q158 258 135 240;M188 295 Q155 255 130 235"
+              dur="5s"
               repeatCount="indefinite"
             />
           </path>
-          
-          {/* Right main branch */}
           <path 
-            d="M212 265 C235 240, 265 220, 295 205"
-            stroke="url(#trunkGradient)"
+            d="M212 275 Q245 235 275 215"
+            stroke={treeColor}
             strokeWidth="14"
             fill="none"
             strokeLinecap="round"
           >
             <animate 
               attributeName="d" 
-              values="M212 265 C235 240, 265 220, 295 205;M212 265 C232 237, 260 215, 290 198;M212 265 C235 240, 265 220, 295 205"
-              dur="5.5s"
+              values="M212 275 Q245 235 275 215;M212 275 Q242 232 270 210;M212 275 Q245 235 275 215"
+              dur="4.5s"
               repeatCount="indefinite"
             />
           </path>
-          
           {/* Smaller branches */}
-          <path d="M192 240 C170 220, 150 205, 130 195" stroke="url(#trunkGradient)" strokeWidth="6" fill="none" strokeLinecap="round">
-            <animate attributeName="d" values="M192 240 C170 220, 150 205, 130 195;M192 240 C172 223, 155 210, 137 202;M192 240 C170 220, 150 205, 130 195" dur="5s" repeatCount="indefinite" />
+          <path d="M195 250 Q170 230 155 220" stroke={treeColor} strokeWidth="6" fill="none" strokeLinecap="round">
+            <animate attributeName="d" values="M195 250 Q170 230 155 220;M195 250 Q172 233 158 225;M195 250 Q170 230 155 220" dur="4s" repeatCount="indefinite" />
           </path>
-          <path d="M208 250 C230 235, 255 225, 275 220" stroke="url(#trunkGradient)" strokeWidth="6" fill="none" strokeLinecap="round">
-            <animate attributeName="d" values="M208 250 C230 235, 255 225, 275 220;M208 250 C228 232, 252 220, 272 213;M208 250 C230 235, 255 225, 275 220" dur="5.2s" repeatCount="indefinite" />
+          <path d="M205 260 Q230 245 250 240" stroke={treeColor} strokeWidth="6" fill="none" strokeLinecap="round">
+            <animate attributeName="d" values="M205 260 Q230 245 250 240;M205 260 Q228 242 248 235;M205 260 Q230 245 250 240" dur="4.2s" repeatCount="indefinite" />
           </path>
         </g>
         
-        {/* Leaf canopy - layered for depth */}
+        {/* Leaves/Canopy - Savings Growth (swaying and breathing) */}
         <g>
-          {/* Back layer leaves (darker) */}
+          {/* Main canopy clusters with individual animations */}
           {[
-            { cx: 200, cy: 75, rx: 75 + growthLevel * 0.4, ry: 55 + growthLevel * 0.3 },
-            { cx: 130, cy: 130, rx: 50 + growthLevel * 0.3, ry: 40 + growthLevel * 0.2 },
-            { cx: 270, cy: 125, rx: 50 + growthLevel * 0.3, ry: 42 + growthLevel * 0.2 },
+            { cx: 200, cy: 95, rx: 65 + growthLevel * 0.5, ry: 55 + growthLevel * 0.4, dur: "5s", o: 0.95 },
+            { cx: 145, cy: 130, rx: 45 + growthLevel * 0.35, ry: 40 + growthLevel * 0.25, dur: "4.5s", o: 0.9 },
+            { cx: 255, cy: 130, rx: 45 + growthLevel * 0.35, ry: 40 + growthLevel * 0.25, dur: "4.8s", o: 0.9 },
+            { cx: 120, cy: 175, rx: 35 + growthLevel * 0.25, ry: 30 + growthLevel * 0.2, dur: "4.2s", o: 0.85 },
+            { cx: 280, cy: 175, rx: 35 + growthLevel * 0.25, ry: 30 + growthLevel * 0.2, dur: "4.4s", o: 0.85 },
+            { cx: 175, cy: 65, rx: 30, ry: 25, dur: "3.8s", o: 0.95 },
+            { cx: 225, cy: 70, rx: 28, ry: 23, dur: "4s", o: 0.95 },
+            { cx: 200, cy: 50, rx: 25, ry: 20, dur: "3.5s", o: 0.9 },
+            { cx: 155, cy: 100, rx: 22, ry: 18, dur: "3.9s", o: 0.85 },
+            { cx: 245, cy: 100, rx: 22, ry: 18, dur: "4.1s", o: 0.85 },
           ].map((leaf, i) => (
             <ellipse 
-              key={`back-${i}`}
+              key={i}
               cx={leaf.cx} 
               cy={leaf.cy} 
               rx={leaf.rx} 
               ry={leaf.ry} 
-              fill={leafColors.secondary}
-              opacity={0.7}
-            >
-              <animate 
-                attributeName="cx" 
-                values={`${leaf.cx};${leaf.cx + 2};${leaf.cx - 1};${leaf.cx}`} 
-                dur={`${5 + i}s`} 
-                repeatCount="indefinite" 
-              />
-            </ellipse>
-          ))}
-          
-          {/* Middle layer leaves */}
-          {[
-            { cx: 200, cy: 85, rx: 68 + growthLevel * 0.45, ry: 50 + growthLevel * 0.35 },
-            { cx: 145, cy: 120, rx: 45 + growthLevel * 0.3, ry: 38 + growthLevel * 0.25 },
-            { cx: 255, cy: 115, rx: 45 + growthLevel * 0.3, ry: 38 + growthLevel * 0.25 },
-            { cx: 100, cy: 175, rx: 35 + growthLevel * 0.2, ry: 28 + growthLevel * 0.15 },
-            { cx: 300, cy: 170, rx: 35 + growthLevel * 0.2, ry: 28 + growthLevel * 0.15 },
-          ].map((leaf, i) => (
-            <ellipse 
-              key={`mid-${i}`}
-              cx={leaf.cx} 
-              cy={leaf.cy} 
-              rx={leaf.rx} 
-              ry={leaf.ry} 
-              fill="url(#leafGradient2)"
-              opacity={0.85}
+              fill="url(#leafGradient)" 
+              opacity={leaf.o}
             >
               <animate 
                 attributeName="cx" 
                 values={`${leaf.cx};${leaf.cx + 3};${leaf.cx - 2};${leaf.cx}`} 
-                dur={`${4.5 + i * 0.3}s`} 
+                dur={leaf.dur} 
                 repeatCount="indefinite" 
               />
               <animate 
-                attributeName="ry" 
-                values={`${leaf.ry};${leaf.ry + 2};${leaf.ry}`} 
-                dur={`${5 + i * 0.4}s`} 
+                attributeName="rx" 
+                values={`${leaf.rx};${leaf.rx + 3};${leaf.rx}`} 
+                dur={`${parseFloat(leaf.dur) + 0.5}s`} 
                 repeatCount="indefinite" 
               />
             </ellipse>
           ))}
           
-          {/* Front layer leaves (brightest with highlights) */}
-          {[
-            { cx: 200, cy: 70, rx: 55 + growthLevel * 0.35, ry: 40 + growthLevel * 0.25 },
-            { cx: 160, cy: 100, rx: 35 + growthLevel * 0.25, ry: 28 + growthLevel * 0.2 },
-            { cx: 240, cy: 95, rx: 35 + growthLevel * 0.25, ry: 28 + growthLevel * 0.2 },
-            { cx: 175, cy: 55, rx: 28, ry: 22 },
-            { cx: 225, cy: 58, rx: 26, ry: 20 },
-            { cx: 200, cy: 45, rx: 22, ry: 18 },
-          ].map((leaf, i) => (
-            <ellipse 
-              key={`front-${i}`}
-              cx={leaf.cx} 
-              cy={leaf.cy} 
-              rx={leaf.rx} 
-              ry={leaf.ry} 
-              fill="url(#leafGradient1)"
-              opacity={0.95}
-            >
-              <animate 
-                attributeName="cx" 
-                values={`${leaf.cx};${leaf.cx + 2};${leaf.cx - 1.5};${leaf.cx}`} 
-                dur={`${4 + i * 0.25}s`} 
-                repeatCount="indefinite" 
-              />
-            </ellipse>
-          ))}
-          
-          {/* Sparkles on healthy tree */}
-          {growthLevel > 50 && [...Array(8)].map((_, i) => (
-            <use
+          {/* Leaf sparkles when healthy */}
+          {growthLevel > 60 && [...Array(6)].map((_, i) => (
+            <circle
               key={i}
-              href="#star"
-              x={130 + i * 25 + (i % 2) * 10}
-              y={50 + (i % 3) * 35}
+              cx={150 + i * 20}
+              cy={80 + (i % 3) * 30}
+              r="2"
               fill="#fff"
               opacity="0"
             >
               <animate 
                 attributeName="opacity" 
-                values="0;0.9;0" 
-                dur={`${2 + i * 0.4}s`} 
+                values="0;0.8;0" 
+                dur={`${1.5 + i * 0.3}s`} 
                 repeatCount="indefinite" 
-                begin={`${i * 0.6}s`}
+                begin={`${i * 0.5}s`}
               />
-              <animateTransform
-                attributeName="transform"
-                type="scale"
-                values="0.5;1;0.5"
-                dur={`${2 + i * 0.4}s`}
-                repeatCount="indefinite"
-                begin={`${i * 0.6}s`}
-              />
-            </use>
+            </circle>
           ))}
         </g>
         
-        {/* Fruits - beautiful apples with shine */}
+        {/* Fruits - Goals Achieved (bouncing and glowing) */}
         {Array.from({ length: Math.min(fruitsCount, 5) }).map((_, i) => {
           const positions = [
-            { x: 165, y: 80 },
-            { x: 235, y: 85 },
-            { x: 120, y: 140 },
-            { x: 280, y: 135 },
-            { x: 200, y: 55 },
+            { x: 155, y: 85 },
+            { x: 245, y: 90 },
+            { x: 125, y: 145 },
+            { x: 275, y: 150 },
+            { x: 200, y: 60 },
           ]
-          const colors = ["#f472b6", "#fb7185", "#f472b6", "#ec4899", "#f472b6"]
           return (
             <g key={i}>
-              {/* Outer glow */}
+              {/* Fruit glow */}
               <circle 
                 cx={positions[i].x} 
                 cy={positions[i].y} 
-                r="16" 
-                fill={colors[i]}
+                r="18" 
+                fill="#f472b6"
                 opacity="0.3"
-                filter="url(#strongGlow)"
+                filter="url(#glow)"
               >
-                <animate attributeName="r" values="14;18;14" dur={`${2.5 + i * 0.3}s`} repeatCount="indefinite" />
+                <animate attributeName="r" values="16;20;16" dur={`${2 + i * 0.3}s`} repeatCount="indefinite" />
+                <animate attributeName="opacity" values="0.2;0.4;0.2" dur={`${2 + i * 0.3}s`} repeatCount="indefinite" />
               </circle>
-              {/* Main fruit body */}
-              <ellipse 
+              {/* Main fruit */}
+              <circle 
                 cx={positions[i].x} 
                 cy={positions[i].y} 
-                rx="11" 
-                ry="12" 
-                fill={colors[i]}
+                r="13" 
+                fill="#f472b6"
               >
                 <animate 
                   attributeName="cy" 
-                  values={`${positions[i].y};${positions[i].y - 2};${positions[i].y}`} 
-                  dur={`${3 + i * 0.25}s`} 
+                  values={`${positions[i].y};${positions[i].y - 3};${positions[i].y}`} 
+                  dur={`${2.5 + i * 0.2}s`} 
                   repeatCount="indefinite" 
                 />
-              </ellipse>
-              {/* Highlight shine */}
-              <ellipse 
-                cx={positions[i].x - 3} 
-                cy={positions[i].y - 4} 
-                rx="4" 
-                ry="3" 
-                fill="rgba(255,255,255,0.6)"
-              >
-                <animate 
-                  attributeName="cy" 
-                  values={`${positions[i].y - 4};${positions[i].y - 6};${positions[i].y - 4}`} 
-                  dur={`${3 + i * 0.25}s`} 
-                  repeatCount="indefinite" 
-                />
-              </ellipse>
-              {/* Smaller highlight */}
+              </circle>
+              {/* Highlight */}
               <circle 
-                cx={positions[i].x - 5} 
-                cy={positions[i].y - 2} 
-                r="1.5" 
-                fill="rgba(255,255,255,0.4)"
-              />
+                cx={positions[i].x - 4} 
+                cy={positions[i].y - 4} 
+                r="4" 
+                fill="rgba(255,255,255,0.5)"
+              >
+                <animate 
+                  attributeName="cy" 
+                  values={`${positions[i].y - 4};${positions[i].y - 7};${positions[i].y - 4}`} 
+                  dur={`${2.5 + i * 0.2}s`} 
+                  repeatCount="indefinite" 
+                />
+              </circle>
               {/* Stem */}
               <path 
-                d={`M${positions[i].x} ${positions[i].y - 11} C${positions[i].x + 2} ${positions[i].y - 15}, ${positions[i].x + 4} ${positions[i].y - 16}, ${positions[i].x + 5} ${positions[i].y - 14}`}
-                stroke="#854d0e"
+                d={`M${positions[i].x} ${positions[i].y - 12} Q${positions[i].x + 3} ${positions[i].y - 18} ${positions[i].x + 6} ${positions[i].y - 15}`}
+                stroke="#22c55e"
                 strokeWidth="2"
                 fill="none"
-                strokeLinecap="round"
-              />
-              {/* Tiny leaf on stem */}
-              <ellipse 
-                cx={positions[i].x + 6} 
-                cy={positions[i].y - 14} 
-                rx="4" 
-                ry="2" 
-                fill={leafColors.primary}
-                transform={`rotate(30 ${positions[i].x + 6} ${positions[i].y - 14})`}
               />
             </g>
           )
         })}
         
-        {/* Falling leaves for bad habits (subtle, not ugly) */}
-        {Array.from({ length: Math.min(pestsCount, 3) }).map((_, i) => {
-          const startX = 280 + i * 30
-          const startY = 150 + i * 20
+        {/* Pests/Dry Leaves - Bad Habits (falling animation) */}
+        {Array.from({ length: Math.min(pestsCount, 4) }).map((_, i) => {
+          const positions = [
+            { x: 290, y: 200 },
+            { x: 110, y: 190 },
+            { x: 310, y: 155 },
+            { x: 90, y: 145 },
+          ]
           return (
-            <ellipse 
-              key={i}
-              rx="6" 
-              ry="4" 
-              fill="#a8a29e"
-              opacity="0.6"
-            >
-              <animateMotion 
-                dur={`${8 + i * 2}s`} 
-                repeatCount="indefinite"
-                path={`M${startX} ${startY} Q${startX - 30} ${startY + 80} ${startX - 50} ${startY + 160}`}
-              />
-              <animate 
-                attributeName="opacity" 
-                values="0.6;0.3;0" 
-                dur={`${8 + i * 2}s`} 
-                repeatCount="indefinite" 
-              />
-              <animateTransform 
-                attributeName="transform" 
-                type="rotate" 
-                values="0;180;360" 
-                dur={`${4 + i}s`} 
-                repeatCount="indefinite" 
-              />
-            </ellipse>
+            <g key={i}>
+              {/* Falling leaf */}
+              <ellipse 
+                cx={positions[i].x} 
+                cy={positions[i].y} 
+                rx="10" 
+                ry="6" 
+                fill="#78716c"
+                opacity="0.8"
+              >
+                <animate 
+                  attributeName="cy" 
+                  values={`${positions[i].y};${positions[i].y + 60};${positions[i].y}`} 
+                  dur={`${6 + i}s`} 
+                  repeatCount="indefinite" 
+                />
+                <animate 
+                  attributeName="cx" 
+                  values={`${positions[i].x};${positions[i].x + 15};${positions[i].x - 10};${positions[i].x}`} 
+                  dur={`${6 + i}s`} 
+                  repeatCount="indefinite" 
+                />
+                <animate 
+                  attributeName="opacity" 
+                  values="0.8;0.4;0;0.8" 
+                  dur={`${6 + i}s`} 
+                  repeatCount="indefinite" 
+                />
+                <animateTransform 
+                  attributeName="transform" 
+                  type="rotate" 
+                  values="0;180;360" 
+                  dur={`${3 + i * 0.5}s`} 
+                  repeatCount="indefinite" 
+                />
+              </ellipse>
+            </g>
           )
         })}
         
-        {/* Floating magical particles */}
-        {growthLevel > 40 && [...Array(10)].map((_, i) => {
-          const colors = [leafColors.highlight, "#f9a8d4", "#c4b5fd", leafColors.primary]
-          return (
-            <circle 
-              key={i} 
-              r={1.5 + (i % 3)} 
-              fill={colors[i % 4]} 
-              opacity="0"
-            >
-              <animate 
-                attributeName="cx" 
-                values={`${100 + i * 25};${110 + i * 25};${95 + i * 25};${100 + i * 25}`} 
-                dur={`${5 + i * 0.6}s`} 
-                repeatCount="indefinite" 
-              />
-              <animate 
-                attributeName="cy" 
-                values={`${200 - i * 12};${170 - i * 12};${185 - i * 12};${200 - i * 12}`} 
-                dur={`${4 + i * 0.4}s`} 
-                repeatCount="indefinite" 
-              />
-              <animate 
-                attributeName="opacity" 
-                values="0;0.8;0.8;0" 
-                dur={`${4 + i * 0.5}s`} 
-                repeatCount="indefinite" 
-                begin={`${i * 0.7}s`}
-              />
-            </circle>
-          )
-        })}
-        
-        {/* Energy flow from roots to leaves */}
-        {trunkHealth > 50 && [...Array(3)].map((_, i) => (
-          <circle key={i} r="4" fill={rootColors.primary} filter="url(#softGlow)">
-            <animateMotion 
-              dur={`${5 + i * 0.8}s`} 
-              repeatCount="indefinite"
-              path="M200 360 C200 300, 200 200, 200 100"
-              begin={`${i * 1.8}s`}
+        {/* Floating particles / pollen (when healthy) */}
+        {growthLevel > 50 && [...Array(8)].map((_, i) => (
+          <circle key={i} r="2" fill={i % 2 === 0 ? leafColor : "#f472b6"} opacity="0.6">
+            <animate 
+              attributeName="cx" 
+              values={`${120 + i * 25};${130 + i * 25};${115 + i * 25};${120 + i * 25}`} 
+              dur={`${4 + i * 0.5}s`} 
+              repeatCount="indefinite" 
             />
-            <animate attributeName="opacity" values="0;0.8;0.8;0" dur={`${5 + i * 0.8}s`} repeatCount="indefinite" begin={`${i * 1.8}s`} />
-            <animate attributeName="r" values="3;5;3" dur={`${5 + i * 0.8}s`} repeatCount="indefinite" begin={`${i * 1.8}s`} />
+            <animate 
+              attributeName="cy" 
+              values={`${180 - i * 10};${160 - i * 10};${170 - i * 10};${180 - i * 10}`} 
+              dur={`${3 + i * 0.3}s`} 
+              repeatCount="indefinite" 
+            />
+            <animate 
+              attributeName="opacity" 
+              values="0;0.7;0" 
+              dur={`${3 + i * 0.4}s`} 
+              repeatCount="indefinite" 
+              begin={`${i * 0.5}s`}
+            />
+          </circle>
+        ))}
+        
+        {/* Water drops going up to tree (nutrient flow) */}
+        {trunkHealth > 40 && [...Array(3)].map((_, i) => (
+          <circle key={i} r="3" fill="#60a5fa" opacity="0">
+            <animate 
+              attributeName="cy" 
+              values="340;200;100" 
+              dur={`${4 + i}s`} 
+              repeatCount="indefinite" 
+              begin={`${i * 1.5}s`}
+            />
+            <animate 
+              attributeName="cx" 
+              values={`${195 + i * 5};${198 + i * 3};${200}`} 
+              dur={`${4 + i}s`} 
+              repeatCount="indefinite" 
+              begin={`${i * 1.5}s`}
+            />
+            <animate 
+              attributeName="opacity" 
+              values="0;0.8;0.6;0" 
+              dur={`${4 + i}s`} 
+              repeatCount="indefinite" 
+              begin={`${i * 1.5}s`}
+            />
+            <animate 
+              attributeName="r" 
+              values="4;3;2" 
+              dur={`${4 + i}s`} 
+              repeatCount="indefinite" 
+              begin={`${i * 1.5}s`}
+            />
           </circle>
         ))}
       </svg>
+      
+      {/* CSS Floating particles overlay */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[...Array(12)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute rounded-full animate-float"
+            style={{
+              width: `${4 + (i % 3) * 2}px`,
+              height: `${4 + (i % 3) * 2}px`,
+              background: i % 3 === 0 ? 'rgba(244, 114, 182, 0.4)' : i % 3 === 1 ? 'rgba(139, 92, 246, 0.4)' : 'rgba(34, 197, 94, 0.4)',
+              left: `${15 + i * 6}%`,
+              top: `${15 + (i % 4) * 15}%`,
+              animationDelay: `${i * 0.4}s`,
+              animationDuration: `${4 + (i % 3)}s`
+            }}
+          />
+        ))}
+      </div>
     </div>
   )
 }
