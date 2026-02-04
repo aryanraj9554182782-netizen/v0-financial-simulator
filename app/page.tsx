@@ -151,7 +151,7 @@ export default function HomePage() {
         {/* Footer */}
         <footer className="container mx-auto px-6 py-8 mt-16 border-t border-border/30">
           <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <p>Built for the next generation of money-smart teens</p>
+            <p>Built for the next generation</p>
             <p>FinSim - Financial Simulator</p>
           </div>
         </footer>
