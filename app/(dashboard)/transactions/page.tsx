@@ -210,12 +210,12 @@ export default function TransactionsPage() {
 
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
-            <Button className="bg-primary hover:bg-primary/90 glow-blue gap-2">
+            <Button className="bg-primary hover:bg-primary/90 glow-purple gap-2">
               <Plus className="w-4 h-4" />
               Add Transaction
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-[oklch(0.12_0.03_260)] border-border/50 text-foreground">
+          <DialogContent className="bg-[oklch(0.4_0.12_280)] border-border/50 text-foreground">
             <DialogHeader>
               <DialogTitle className="text-foreground">Add Transaction</DialogTitle>
             </DialogHeader>
