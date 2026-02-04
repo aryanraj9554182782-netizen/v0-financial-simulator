@@ -55,9 +55,9 @@ function FinancialTree({
   fruitsCount: number
   pestsCount: number
 }) {
-  const treeColor = trunkHealth > 70 ? "#22c55e" : trunkHealth > 40 ? "#eab308" : "#f97316"
-  const leafColor = growthLevel > 70 ? "#22c55e" : growthLevel > 40 ? "#84cc16" : "#a3a3a3"
-  const rootColor = rootsHealth > 70 ? "#8b5cf6" : rootsHealth > 40 ? "#c084fc" : "#6b7280"
+  const treeColor = trunkHealth > 70 ? "#a78bfa" : trunkHealth > 40 ? "#c4b5fd" : "#9ca3af"
+  const leafColor = growthLevel > 70 ? "#c4b5fd" : growthLevel > 40 ? "#ddd6fe" : "#d1d5db"
+  const rootColor = rootsHealth > 70 ? "#8b5cf6" : rootsHealth > 40 ? "#a78bfa" : "#6b7280"
   
   return (
     <div className="relative w-full h-[450px] flex items-center justify-center">
@@ -65,8 +65,8 @@ function FinancialTree({
         <defs>
           {/* Gradients */}
           <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#fbbf24" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="#fbbf24" stopOpacity="0" />
+            <stop offset="0%" stopColor="#ddd6fe" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#c4b5fd" stopOpacity="0" />
           </radialGradient>
           <linearGradient id="trunkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor={treeColor} stopOpacity="0.8" />
@@ -98,7 +98,7 @@ function FinancialTree({
           <circle cx="350" cy="50" r="80" fill="url(#sunGlow)">
             <animate attributeName="r" values="70;85;70" dur="4s" repeatCount="indefinite" />
           </circle>
-          <circle cx="350" cy="50" r="22" fill="#fbbf24" filter="url(#glow)">
+          <circle cx="350" cy="50" r="22" fill="#e9d5ff" filter="url(#glow)">
             <animate attributeName="r" values="20;24;20" dur="3s" repeatCount="indefinite" />
           </circle>
           {/* Sun rays */}
@@ -109,7 +109,7 @@ function FinancialTree({
               y1={50 + Math.sin(angle * Math.PI / 180) * 30}
               x2={350 + Math.cos(angle * Math.PI / 180) * 45}
               y2={50 + Math.sin(angle * Math.PI / 180) * 45}
-              stroke="#fbbf24"
+              stroke="#e9d5ff"
               strokeWidth="2"
               strokeLinecap="round"
               opacity="0.6"
@@ -311,7 +311,7 @@ function FinancialTree({
                 cx={positions[i].x} 
                 cy={positions[i].y} 
                 r="18" 
-                fill="#f472b6"
+                fill="#c4b5fd"
                 opacity="0.3"
                 filter="url(#glow)"
               >
@@ -323,7 +323,7 @@ function FinancialTree({
                 cx={positions[i].x} 
                 cy={positions[i].y} 
                 r="13" 
-                fill="#f472b6"
+                fill="#c4b5fd"
               >
                 <animate 
                   attributeName="cy" 
@@ -408,7 +408,7 @@ function FinancialTree({
         
         {/* Floating particles / pollen (when healthy) */}
         {growthLevel > 50 && [...Array(8)].map((_, i) => (
-          <circle key={i} r="2" fill={i % 2 === 0 ? leafColor : "#f472b6"} opacity="0.6">
+          <circle key={i} r="2" fill={i % 2 === 0 ? leafColor : "#c4b5fd"} opacity="0.6">
             <animate 
               attributeName="cx" 
               values={`${120 + i * 25};${130 + i * 25};${115 + i * 25};${120 + i * 25}`} 
@@ -740,7 +740,7 @@ export default function InsightsPage() {
           label="Fruits (Goals)"
           value={Math.round(goalProgress)}
           description={`${fruitsCount} goal milestones reached!`}
-          color="#f472b6"
+          color="#c4b5fd"
         />
       </div>
 
