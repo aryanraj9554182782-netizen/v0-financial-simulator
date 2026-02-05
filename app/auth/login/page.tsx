@@ -55,8 +55,8 @@ export default function LoginPage() {
     <div className="min-h-screen relative overflow-hidden flex items-center justify-center px-6">
       {/* Background effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse-glow" />
-        <div className="absolute bottom-40 right-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-muted/10 rounded-full blur-3xl animate-pulse-glow" />
+        <div className="absolute bottom-40 right-20 w-96 h-96 bg-muted/10 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
       </div>
 
       <div className="relative z-10 w-full max-w-md">
@@ -67,8 +67,8 @@ export default function LoginPage() {
 
         <div className="glass-card rounded-2xl p-8 space-y-6">
           <div className="text-center space-y-2">
-            <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center mx-auto glow-blue">
-              <Wallet className="w-7 h-7 text-primary" />
+            <div className="w-14 h-14 rounded-xl bg-foreground/10 flex items-center justify-center mx-auto">
+              <Wallet className="w-7 h-7 text-foreground" />
             </div>
             <h1 className="text-2xl font-bold text-foreground">Welcome Back</h1>
             <p className="text-muted-foreground">Continue your financial journey</p>
@@ -103,7 +103,7 @@ export default function LoginPage() {
 
             <Button 
               type="submit" 
-              className="w-full bg-primary hover:bg-primary/90 glow-blue"
+              className="w-full bg-foreground text-background hover:bg-foreground/90"
               disabled={loading}
             >
               {loading ? (
@@ -119,7 +119,7 @@ export default function LoginPage() {
 
           <div className="text-center text-sm text-muted-foreground">
             {"Don't have an account? "}
-            <Link href="/auth/sign-up" className="text-primary hover:underline">
+            <Link href="/auth/sign-up" className="text-foreground hover:underline">
               Sign up
             </Link>
           </div>

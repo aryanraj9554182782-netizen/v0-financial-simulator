@@ -60,8 +60,8 @@ function FinancialTree({
   const rootColor = rootsHealth > 70 ? "#8b5cf6" : rootsHealth > 40 ? "#c084fc" : "#6b7280"
   
   return (
-    <div className="relative w-full h-[450px] flex items-center justify-center">
-      <svg viewBox="0 0 400 400" className="w-full h-full max-w-[450px]">
+    <div className="relative w-full h-[450px] flex items-center justify-center overflow-visible">
+      <svg viewBox="0 0 400 400" className="w-full h-full max-w-[450px]" style={{ overflow: 'visible' }}>
         <defs>
           {/* Gradients */}
           <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
@@ -95,19 +95,19 @@ function FinancialTree({
         
         {/* Animated Sun with rays */}
         <g className="animate-sun">
-          <circle cx="350" cy="50" r="80" fill="url(#sunGlow)">
+          <circle cx="380" cy="50" r="80" fill="url(#sunGlow)">
             <animate attributeName="r" values="70;85;70" dur="4s" repeatCount="indefinite" />
           </circle>
-          <circle cx="350" cy="50" r="22" fill="#fbbf24" filter="url(#glow)">
+          <circle cx="380" cy="50" r="22" fill="#fbbf24" filter="url(#glow)">
             <animate attributeName="r" values="20;24;20" dur="3s" repeatCount="indefinite" />
           </circle>
           {/* Sun rays */}
           {[0, 45, 90, 135, 180, 225, 270, 315].map((angle, i) => (
             <line
               key={angle}
-              x1={350 + Math.cos(angle * Math.PI / 180) * 30}
+              x1={380 + Math.cos(angle * Math.PI / 180) * 30}
               y1={50 + Math.sin(angle * Math.PI / 180) * 30}
-              x2={350 + Math.cos(angle * Math.PI / 180) * 45}
+              x2={380 + Math.cos(angle * Math.PI / 180) * 45}
               y2={50 + Math.sin(angle * Math.PI / 180) * 45}
               stroke="#fbbf24"
               strokeWidth="2"
@@ -577,14 +577,6 @@ export default function InsightsPage() {
     setLoading(false)
   }
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    )
-  }
-
   // Calculate insights
   const totalIncome = transactions
     .filter(t => t.type === "income")
@@ -670,11 +662,11 @@ export default function InsightsPage() {
       </div>
 
       {/* Tree Visualization */}
-      <div className="glass-card rounded-3xl p-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-secondary/5" />
+      <div className="glass-card rounded-3xl p-6 relative overflow-visible">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent rounded-3xl" />
         
         {/* Overall Health Badge */}
-        <div className="absolute top-4 right-4 glass-card rounded-xl px-4 py-2 flex items-center gap-2">
+        <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-sm rounded-xl px-4 py-2 flex items-center gap-2 border border-border/30">
           <div className={`w-3 h-3 rounded-full ${overallHealth >= 70 ? 'bg-green-500' : overallHealth >= 40 ? 'bg-yellow-500' : 'bg-orange-500'} animate-pulse`} />
           <span className="text-sm font-medium text-foreground">Tree Health: {overallHealth}%</span>
         </div>
