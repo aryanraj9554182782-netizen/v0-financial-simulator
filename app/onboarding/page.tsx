@@ -70,22 +70,22 @@ const QUESTIONS = [
 const PERSONALITIES = {
   "The Saver": {
     description: "You're naturally inclined to save! You think before you spend and always have a cushion for emergencies.",
-    color: "primary",
+    color: "neutral",
     tips: "Keep up the great work! Consider learning about investments to make your money grow.",
   },
   "The Planner": {
     description: "You love having a plan! Budgets and tracking come naturally to you.",
-    color: "secondary",
+    color: "neutral",
     tips: "Your planning skills are valuable. Try setting stretch goals to challenge yourself!",
   },
   "The Explorer": {
     description: "You're learning and growing! Every financial decision is a chance to improve.",
-    color: "accent",
+    color: "neutral",
     tips: "Start with small habits - track one expense category this week!",
   },
   "The Spontaneous": {
     description: "You live in the moment! Learning to balance spontaneity with planning will serve you well.",
-    color: "secondary",
+    color: "neutral",
     tips: "Try the 24-hour rule: wait a day before making non-essential purchases.",
   },
 }
@@ -212,11 +212,11 @@ export default function OnboardingPage() {
 
     // Create default categories
     const defaultCategories = [
-      { name: "Food & Drinks", icon: "utensils", color: "#f97316", user_id: user.id },
-      { name: "Entertainment", icon: "gamepad", color: "#8b5cf6", user_id: user.id },
-      { name: "Shopping", icon: "shopping-bag", color: "#ec4899", user_id: user.id },
-      { name: "Transport", icon: "car", color: "#3b82f6", user_id: user.id },
-      { name: "Education", icon: "book", color: "#10b981", user_id: user.id },
+      { name: "Food & Drinks", icon: "utensils", color: "#6b7280", user_id: user.id },
+      { name: "Entertainment", icon: "gamepad", color: "#9ca3af", user_id: user.id },
+      { name: "Shopping", icon: "shopping-bag", color: "#d1d5db", user_id: user.id },
+      { name: "Transport", icon: "car", color: "#4b5563", user_id: user.id },
+      { name: "Education", icon: "book", color: "#374151", user_id: user.id },
       { name: "Other", icon: "circle", color: "#6b7280", user_id: user.id },
     ]
 
@@ -241,7 +241,7 @@ export default function OnboardingPage() {
   if (checkingAuth) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <Loader2 className="w-8 h-8 animate-spin text-foreground" />
       </div>
     )
   }
@@ -253,14 +253,14 @@ export default function OnboardingPage() {
       <div className="min-h-screen relative overflow-hidden flex items-center justify-center px-6">
         {/* Background effects */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse-glow" />
-          <div className="absolute bottom-40 right-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
+          <div className="absolute top-20 left-10 w-72 h-72 bg-muted/10 rounded-full blur-3xl animate-pulse-glow" />
+          <div className="absolute bottom-40 right-20 w-96 h-96 bg-muted/10 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
         </div>
 
         <div className="relative z-10 w-full max-w-lg">
           <div className="glass-card rounded-2xl p-8 space-y-6 text-center">
-            <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center mx-auto glow-blue animate-float">
-              <Sparkles className="w-10 h-10 text-primary" />
+            <div className="w-20 h-20 rounded-full bg-foreground/10 flex items-center justify-center mx-auto animate-float">
+              <Sparkles className="w-10 h-10 text-foreground" />
             </div>
 
             <div className="space-y-2">
@@ -277,7 +277,7 @@ export default function OnboardingPage() {
 
             <Button 
               onClick={handleFinish}
-              className="w-full bg-primary hover:bg-primary/90 glow-blue gap-2"
+              className="w-full bg-foreground text-background hover:bg-foreground/90 gap-2"
               disabled={loading}
             >
               {loading ? (
@@ -302,8 +302,8 @@ export default function OnboardingPage() {
     <div className="min-h-screen relative overflow-hidden flex items-center justify-center px-6">
       {/* Background effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse-glow" />
-        <div className="absolute bottom-40 right-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-muted/10 rounded-full blur-3xl animate-pulse-glow" />
+        <div className="absolute bottom-40 right-20 w-96 h-96 bg-muted/10 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
       </div>
 
       <div className="relative z-10 w-full max-w-lg">

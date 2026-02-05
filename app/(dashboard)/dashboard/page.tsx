@@ -240,14 +240,6 @@ export default function DashboardPage() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    )
-  }
-
   const savingsProgress = profile?.savings_goal 
     ? Math.min(100, ((profile.total_savings || 0) / profile.savings_goal) * 100)
     : 0
@@ -268,7 +260,7 @@ export default function DashboardPage() {
       <div className="grid md:grid-cols-3 gap-4">
         <div className="glass-card rounded-2xl p-6 space-y-2">
           <p className="text-sm text-muted-foreground">Current Balance</p>
-          <p className="text-3xl font-bold gradient-text">
+          <p className={`text-3xl font-bold ${(profile?.current_balance || 0) >= 0 ? 'text-green-400' : 'text-red-400'}`}>
             ${(profile?.current_balance || 0).toLocaleString()}
           </p>
         </div>
@@ -329,7 +321,7 @@ export default function DashboardPage() {
                   variant="outline"
                   onClick={() => handleChallengeChoice(choice)}
                   disabled={submitting}
-                  className="justify-start text-left h-auto py-4 px-4 bg-transparent border-border/50 hover:bg-muted/30 hover:border-primary/50 text-foreground"
+                  className="justify-start text-left h-auto py-4 px-4 bg-transparent border-border/50 hover:bg-muted/30 hover:border-foreground/30 text-foreground hover:text-foreground"
                 >
                   {choice.label}
                 </Button>

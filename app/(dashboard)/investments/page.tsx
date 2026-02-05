@@ -395,14 +395,6 @@ export default function InvestmentsPage() {
     }
   }
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
-    )
-  }
-
   const portfolioValue = investments.reduce((sum, i) => sum + (i.shares * i.current_price), 0)
   const totalCost = investments.reduce((sum, i) => sum + (i.shares * i.buy_price), 0)
   const totalProfit = portfolioValue - totalCost
@@ -488,7 +480,7 @@ export default function InvestmentsPage() {
             <p className="text-sm text-muted-foreground">Your Cash</p>
             <DollarSign className="w-4 h-4 text-muted-foreground" />
           </div>
-          <p className="text-2xl font-bold text-foreground">${profile?.current_balance.toLocaleString()}</p>
+          <p className={`text-2xl font-bold ${(profile?.current_balance || 0) >= 0 ? 'text-green-400' : 'text-red-400'}`}>${profile?.current_balance.toLocaleString()}</p>
           <p className="text-xs text-muted-foreground">Available to invest</p>
         </div>
         

@@ -15,8 +15,23 @@ import {
   TrendingUp, 
   LogOut,
   Menu,
-  X
+  X,
+  Settings,
+  User
 } from "lucide-react"
+
+const currencies: Record<string, string> = {
+  USD: "$",
+  INR: "₹",
+  EUR: "€",
+  GBP: "£",
+  JPY: "¥",
+  CNY: "¥",
+  KRW: "₩",
+  BTC: "₿",
+  AED: "د.إ",
+  SAR: "﷼",
+}
 
 interface Profile {
   display_name: string
@@ -27,11 +42,25 @@ interface Profile {
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null)
-  const [loading, setLoading] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [currencySymbol, setCurrencySymbol] = useState("$")
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
   const supabase = createClient()
+
+  useEffect(() => {
+    // Load saved currency
+    const savedCurrency = localStorage.getItem("finsim_currency") || "USD"
+    setCurrencySymbol(currencies[savedCurrency] || "$")
+
+    // Listen for currency changes
+    const handleCurrencyChange = (e: CustomEvent) => {
+      setCurrencySymbol(currencies[e.detail] || "$")
+    }
+    window.addEventListener("currencyChange", handleCurrencyChange as EventListener)
+    return () => window.removeEventListener("currencyChange", handleCurrencyChange as EventListener)
+  }, [])
 
   useEffect(() => {
     async function loadProfile() {
@@ -50,7 +79,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       if (data) {
         setProfile(data)
       }
-      setLoading(false)
     }
     loadProfile()
   }, [router, supabase])
@@ -65,15 +93,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { href: "/transactions", label: "Transactions", icon: Receipt },
     { href: "/insights", label: "Insights", icon: BarChart3 },
     { href: "/investments", label: "Investments", icon: TrendingUp },
+    { href: "/settings", label: "Settings", icon: Settings },
   ]
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-      </div>
-    )
-  }
 
   return (
     <div className="min-h-screen flex">
@@ -90,10 +111,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="flex flex-col h-full p-4">
           {/* Logo */}
           <div className="flex items-center gap-2 px-2 py-4">
-            <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center glow-blue">
-              <Wallet className="w-5 h-5 text-primary" />
+            <div className="w-10 h-10 rounded-xl bg-foreground/10 flex items-center justify-center">
+              <Wallet className="w-5 h-5 text-foreground" />
             </div>
-            <span className="text-xl font-bold gradient-text">FinSim</span>
+            <span className="text-4xl font-bold text-white" style={{ textShadow: '0 0 20px rgba(192, 192, 192, 0.5), 0 0 40px rgba(192, 192, 192, 0.3)' }}>FinSim.</span>
           </div>
 
           {/* User info */}
@@ -115,7 +136,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   onClick={() => setSidebarOpen(false)}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
                     isActive
-                      ? "bg-primary/20 text-primary glow-blue"
+                      ? "bg-foreground/10 text-foreground"
                       : "text-muted-foreground hover:text-foreground hover:bg-muted/30"
                   }`}
                 >
@@ -125,30 +146,49 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               )
             })}
           </nav>
-
-          {/* Balance card */}
-          <div className="glass-card rounded-xl p-4 mb-4">
-            <p className="text-sm text-muted-foreground">Current Balance</p>
-            <p className="text-2xl font-bold gradient-text">
-              ${(profile?.current_balance || 0).toLocaleString()}
-            </p>
-          </div>
-
-          {/* Logout */}
-          <Button
-            variant="ghost"
-            onClick={handleLogout}
-            className="justify-start gap-3 text-muted-foreground hover:text-foreground hover:bg-muted/30"
-          >
-            <LogOut className="w-5 h-5" />
-            Logout
-          </Button>
         </div>
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 lg:ml-0 min-h-screen">
-        <div className="p-6 lg:p-8">
+      <main className="flex-1 lg:ml-0 min-h-screen relative">
+        {/* Profile icon - top right */}
+        <div className="absolute top-4 right-4 lg:top-6 lg:right-8 z-50">
+          <div className="relative">
+            <button
+              onClick={() => setProfileMenuOpen(!profileMenuOpen)}
+              className="w-10 h-10 rounded-full bg-foreground/10 border border-border/30 flex items-center justify-center hover:bg-foreground/20 transition-colors"
+            >
+              <User className="w-5 h-5 text-foreground" />
+            </button>
+            
+            {profileMenuOpen && (
+              <>
+                <div 
+                  className="fixed inset-0 z-40" 
+                  onClick={() => setProfileMenuOpen(false)}
+                />
+                <div className="absolute right-0 mt-2 w-48 rounded-xl py-2 z-50 animate-fade-in bg-[#0c0c0c] border border-white/50">
+                  <div className="px-4 py-2 border-b border-white/20">
+                    <p className="font-medium text-foreground text-sm">{profile?.display_name || "User"}</p>
+                    <p className="text-xs text-muted-foreground">{profile?.financial_personality}</p>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-white/10 transition-colors"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
+        <div 
+          key={pathname}
+          className="p-6 lg:p-8 animate-fade-in"
+        >
           {children}
         </div>
       </main>

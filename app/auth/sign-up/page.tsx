@@ -65,8 +65,8 @@ export default function SignUpPage() {
     <div className="min-h-screen relative overflow-hidden flex items-center justify-center px-6">
       {/* Background effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-pulse-glow" />
-        <div className="absolute bottom-40 right-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-muted/10 rounded-full blur-3xl animate-pulse-glow" />
+        <div className="absolute bottom-40 right-20 w-96 h-96 bg-muted/10 rounded-full blur-3xl animate-pulse-glow" style={{ animationDelay: '1s' }} />
       </div>
 
       <div className="relative z-10 w-full max-w-md">
@@ -77,8 +77,8 @@ export default function SignUpPage() {
 
         <div className="glass-card rounded-2xl p-8 space-y-6">
           <div className="text-center space-y-2">
-            <div className="w-14 h-14 rounded-xl bg-secondary/20 flex items-center justify-center mx-auto glow-pink">
-              <Wallet className="w-7 h-7 text-secondary" />
+            <div className="w-14 h-14 rounded-xl bg-foreground/10 flex items-center justify-center mx-auto">
+              <Wallet className="w-7 h-7 text-foreground" />
             </div>
             <h1 className="text-2xl font-bold text-foreground">Start Your Journey</h1>
             <p className="text-muted-foreground">Create your account to begin learning</p>
@@ -94,7 +94,7 @@ export default function SignUpPage() {
                 value={displayName}
                 onChange={(e) => setDisplayName(e.target.value)}
                 required
-                className="bg-input border-border/50 focus:border-secondary text-foreground placeholder:text-muted-foreground"
+                className="bg-input border-border/50 focus:border-foreground text-foreground placeholder:text-muted-foreground"
               />
             </div>
 
@@ -107,7 +107,7 @@ export default function SignUpPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="bg-input border-border/50 focus:border-secondary text-foreground placeholder:text-muted-foreground"
+                className="bg-input border-border/50 focus:border-foreground text-foreground placeholder:text-muted-foreground"
               />
             </div>
 
@@ -121,13 +121,13 @@ export default function SignUpPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="bg-input border-border/50 focus:border-secondary text-foreground placeholder:text-muted-foreground"
+                className="bg-input border-border/50 focus:border-foreground text-foreground placeholder:text-muted-foreground"
               />
             </div>
 
             <Button 
               type="submit" 
-              className="w-full bg-secondary hover:bg-secondary/90 glow-pink text-secondary-foreground"
+              className="w-full bg-foreground text-background hover:bg-foreground/90"
               disabled={loading}
             >
               {loading ? (
@@ -143,7 +143,7 @@ export default function SignUpPage() {
 
           <div className="text-center text-sm text-muted-foreground">
             Already have an account?{" "}
-            <Link href="/auth/login" className="text-secondary hover:underline">
+            <Link href="/auth/login" className="text-foreground hover:underline">
               Sign in
             </Link>
           </div>
